@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员后台 - 心理学实验</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- 登录界面（已隐藏，无需登录） -->
+    <div id="admin-login" class="admin-section" style="display: none;">
+        <div class="container">
+            <h1>管理员登录</h1>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="admin-username">用户名：</label>
+                    <input type="text" id="admin-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">密码：</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">登录</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 后台主界面 -->
+    <div id="admin-dashboard" class="admin-section active">
+        <div class="admin-nav">
+            <button class="nav-btn" data-tab="config">实验配置</button>
+            <button class="nav-btn" data-tab="data">数据管理</button>
+            <button class="nav-btn" data-tab="stats">统计信息</button>
+        </div>
+
+        <div class="admin-content">
+            <!-- 实验配置 -->
+            <div id="tab-config" class="admin-tab active">
+                <h2>实验配置</h2>
+                
+                <div class="config-section">
+                    <h3>人格特质形容词（5个）</h3>
+                    <div id="trait-editor"></div>
+                    <p class="help-text">对应大五人格维度：开放性、尽责性、外向性、宜人性、神经质</p>
+                </div>
+                
+                <!-- 已移除情境描述、图片展示时长、休息间隔时长配置 -->
+                
+                <div class="config-section">
+                    <h3>注意力检查题</h3>
+                    <div class="form-group">
+                        <label>检查题1：</label>
+                        <input type="text" id="attention-q1" placeholder="问题">
+                        <div id="attention-q1-options"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>检查题2：</label>
+                        <input type="text" id="attention-q2" placeholder="问题">
+                        <div id="attention-q2-options"></div>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h3>开放性问题</h3>
+                    <div class="form-group">
+                        <label>问题1：</label>
+                        <input type="text" id="open-question-1-text" placeholder="你觉得本次实验主要在研究什么？">
+                    </div>
+                    <div class="form-group">
+                        <label>问题2：</label>
+                        <input type="text" id="open-question-2-text" placeholder="服装色彩是否是你判断角色人格的关键因素？为什么？">
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h3>致谢信息</h3>
+                    <div class="form-group">
+                        <label>致谢文案：</label>
+                        <textarea id="thanks-message-text" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="config-section">
+                    <h3>数据有效性判定</h3>
+                    <div class="form-group">
+                        <label>最短完成时长（分钟）：</label>
+                        <input type="number" id="min-duration" min="5" max="60" value="8">
+                    </div>
+                    <div class="form-group">
+                        <label>连续同分试次阈值（默认3次）：</label>
+                        <input type="number" id="max-consecutive-same" min="2" max="10" value="3">
+                        <p class="help-text">连续N个及以上试次的所有题项同分将被标记为无效数据</p>
+                    </div>
+                </div>
+                
+                <button id="save-config" class="btn btn-primary">保存配置</button>
+            </div>
+
+            <!-- 数据管理 -->
+            <div id="tab-data" class="admin-tab">
+                <h2>数据管理</h2>
+                
+                <div class="data-controls">
+                    <div class="form-group">
+                        <label>开始日期：</label>
+                        <input type="date" id="export-start-date">
+                    </div>
+                    <div class="form-group">
+                        <label>结束日期：</label>
+                        <input type="date" id="export-end-date">
+                    </div>
+                    <button id="export-data" class="btn btn-primary">导出数据（CSV）</button>
+                    <button id="export-excel" class="btn btn-primary">导出数据（Excel）</button>
+                    <button id="clear-data" class="btn btn-danger">清空所有数据（谨慎操作）</button>
+                </div>
+                
+                <div class="data-preview">
+                    <h3>数据预览（最近10条）</h3>
+                    <div id="data-table-container"></div>
+                </div>
+            </div>
+
+            <!-- 统计信息 -->
+            <div id="tab-stats" class="admin-tab">
+                <h2>统计信息</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>总参与人数</h3>
+                        <p id="stat-total">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>有效数据</h3>
+                        <p id="stat-valid">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>无效数据</h3>
+                        <p id="stat-invalid">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>平均完成时长</h3>
+                        <p id="stat-avg-duration">0 分钟</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
+

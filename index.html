@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理学实验 - 人格印象评估</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 阶段1: 知情同意 -->
+    <div id="stage-consent" class="stage active">
+        <div class="container">
+            <h1>心理学实验知情同意书</h1>
+            <div class="consent-content">
+                <h2>实验目的</h2>
+                <p>本研究旨在探索不同视觉特征对人物印象形成的影响。通过参与本实验，您将帮助我们了解人们如何基于视觉信息形成对他人的人格印象。</p>
+                
+                <h2>数据用途</h2>
+                <p>您提供的数据将仅用于科学研究目的，所有数据将以匿名方式进行分析，不会用于任何商业用途。</p>
+                
+                <h2>匿名保护</h2>
+                <p>本实验采用完全匿名方式，我们不会收集您的姓名、联系方式等个人识别信息。实验数据将以匿名编码形式保存。</p>
+                
+                <h2>自愿参与</h2>
+                <p>您的参与完全自愿，可以随时退出实验，无需说明理由。退出实验不会对您造成任何不利影响。</p>
+                
+                <h2>实验时长</h2>
+                <p>预计完成时间约20-30分钟。实验过程中会有适当的休息时间。</p>
+                
+                <h2>报酬说明</h2>
+                <p>完成实验后，您将获得相应的实验报酬。报酬将在实验完成后24小时内发放。</p>
+            </div>
+            <div class="consent-actions">
+                <button id="consent-agree" class="btn btn-primary">我已阅读并同意参与实验</button>
+                <button id="consent-disagree" class="btn btn-secondary">我不同意，退出实验</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 阶段2: 实验说明与练习 -->
+    <div id="stage-instruction" class="stage">
+        <div class="container">
+            <h1>实验说明</h1>
+            <div class="instruction-content">
+                <p>在接下来的实验中，您将看到一系列虚拟角色的图片。请根据第一印象对角色人格特质进行评分。</p>
+                <p><strong>重要提示：请凭直觉作答，无需过度思考。</strong></p>
+                <p>您需要评估每个角色在以下5个人格特质上的表现：</p>
+                <ul id="trait-list"></ul>
+                <p>评分采用7点量表，1表示"完全不符合"，7表示"完全符合"。</p>
+                <p>实验过程中不限制答题时长，您可以自主点击"下一题"或"上一题"按钮查看之前的答案。</p>
+                <p>接下来将进行1个练习试次，帮助您熟悉实验流程。练习数据不会被记录。</p>
+            </div>
+            <button id="start-practice" class="btn btn-primary">开始练习</button>
+        </div>
+    </div>
+
+    <!-- 阶段3: 实验试次（练习/正式） -->
+    <div id="stage-trial" class="stage">
+        <div class="container">
+            <div class="trial-header">
+                <div class="progress-info">
+                    <span id="trial-type-label"></span>
+                    <span id="progress-text">试次 0 / 0</span>
+                </div>
+                <div class="timer-info">
+                    <span id="timer-display">00:00</span>
+                </div>
+            </div>
+            
+            <div class="trial-content">
+                <div class="trial-content-main">
+                    <div class="image-container">
+                        <img id="trial-image" src="" alt="实验图片">
+                    </div>
+                    
+                    <div class="trait-ratings" id="trait-ratings">
+                        <!-- 动态生成评分项 -->
+                    </div>
+                </div>
+                
+                <div class="trial-buttons">
+                    <button id="prev-trial" class="btn btn-secondary" style="display: none;">上一题</button>
+                    <button id="next-trial" class="btn btn-primary" disabled>下一题</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 阶段4: 后测问卷 -->
+    <div id="stage-questionnaire" class="stage">
+        <div class="container">
+            <h1>后测问卷</h1>
+            <form id="questionnaire-form">
+                <div class="form-group">
+                    <label for="age">年龄：</label>
+                    <input type="number" id="age" name="age" min="18" max="100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">性别：</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">请选择</option>
+                        <option value="male">男</option>
+                        <option value="female">女</option>
+                        <option value="other">其他</option>
+                        <option value="prefer-not-to-say">不愿透露</option>
+                    </select>
+                </div>
+                
+                <div class="form-group" id="attention-check-1-group">
+                    <label id="attention-check-1-label"></label>
+                    <div class="radio-group" id="attention-check-1-options"></div>
+                </div>
+                
+                <div class="form-group" id="attention-check-2-group">
+                    <label id="attention-check-2-label"></label>
+                    <div class="radio-group" id="attention-check-2-options"></div>
+                </div>
+                
+                <div class="form-group" id="open-question-1-group">
+                    <label for="open-question-1">开放性问题1：</label>
+                    <textarea id="open-question-1" name="open-question-1" rows="3" placeholder="你觉得本次实验主要在研究什么？"></textarea>
+                </div>
+                
+                <div class="form-group" id="open-question-2-group">
+                    <label for="open-question-2">开放性问题2：</label>
+                    <textarea id="open-question-2" name="open-question-2" rows="3" placeholder="服装色彩是否是你判断角色人格的关键因素？为什么？"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">提交问卷</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 阶段6: 致谢页面 -->
+    <div id="stage-thanks" class="stage">
+        <div class="container">
+            <h1>实验完成！</h1>
+            <div class="thanks-content">
+                <p id="thanks-message">感谢您的参与！您的数据已成功提交。</p>
+                <p>您的参与对于我们的研究非常重要，再次感谢！</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
